@@ -2,7 +2,6 @@ package com.example.jethro.jsonparsing;
 
 import android.app.ListActivity;
 import android.app.ProgressDialog;
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -34,8 +33,7 @@ public class MainActivity extends ListActivity {
     private static final String TAG_READ = "read";
 
 
-
-    JSONArray contacts = null;
+    JSONArray title = null;
 
     ArrayList<HashMap<String,String>>contactList;
 
@@ -57,13 +55,6 @@ public class MainActivity extends ListActivity {
                String name=((TextView) view.findViewById(R.id.title)).getText().toString();
 
 
-
-               Intent in = new Intent(getApplicationContext(),
-                       SingleContactActivity.class);
-               in.putExtra(TAG_TITLE, name);
-
-               startActivity(in);
-
            }
        });
 
@@ -73,11 +64,13 @@ public class MainActivity extends ListActivity {
 
     private class GetTitle extends AsyncTask<Void,Void,Void>
     {
+        private final String GET =null ;
+
         @Override
         protected Void doInBackground(Void... params) {
             ServiceHandler sh= new ServiceHandler();
 
-            String jsonStr = sh.getResponse(url,ServiceHandler.GET);
+            String jsonStr = sh.getResponse(url,GET);
 
             Log.d("Response:", ">" + jsonStr);
             if (jsonStr != null) {
@@ -85,21 +78,21 @@ public class MainActivity extends ListActivity {
                     JSONObject jsonObj = new JSONObject(jsonStr);
 
                     // Getting JSON Array node
-                    contacts = jsonObj.getJSONArray(TAG_TITLE);
+                    title = jsonObj.getJSONArray(TAG_TITLE);
 
                     // looping through All Contacts
-                    for (int i = 0; i < contacts.length(); i++) {
-                        JSONObject c = contacts.getJSONObject(i);
+                    for (int i = 0; i < title.length(); i++) {
+                        JSONObject c = title.getJSONObject(i);
 
                         String id = c.getString(TAG_ID);
-                        String gender = c.getString(TAG_READ);
+                        String title = c.getString(TAG_READ);
 
                         // tmp hashmap for single contact
                         HashMap<String, String> contact = new HashMap<String, String>();
 
                         // adding each child node to HashMap key => value
                         contact.put(TAG_ID, id);
-                        contact.put(TAG_TITLE,name);
+                        contact.put(TAG_TITLE,title);
 
 
                         // adding contact to contact list
@@ -137,9 +130,8 @@ public class MainActivity extends ListActivity {
              * */
             ListAdapter adapter = new SimpleAdapter(
                     MainActivity.this, contactList,
-                    R.layout.list_item, new String[] { TAG_ID, TAG_TITLE,
-                    TAG_GENRE }, new int[] { R.id.name,
-                    R.id.email, R.id.mobile });
+                    R.layout.list_item, new String[] { TAG_TITLE
+                     }, new int[] { R.id.title});
 
             setListAdapter(adapter);
         }
