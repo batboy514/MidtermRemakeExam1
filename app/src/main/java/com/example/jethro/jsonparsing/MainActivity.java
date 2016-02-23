@@ -23,7 +23,7 @@ public class MainActivity extends ListActivity {
 
     private ProgressDialog pDialog;
 
-    private static String url = "http://josenian.herokuapp.com/api/books";
+    private static String url = "http://joseniandroid.herokuapp.com/api/books";
 
 
     private static final String TAG_TITLE = "title";
@@ -107,18 +107,6 @@ public class MainActivity extends ListActivity {
 
             return null;
         }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-
-            pDialog = new ProgressDialog(MainActivity.this);
-            pDialog.setMessage("Please wait...");
-            pDialog.setCancelable(false);
-            pDialog.show();
-
-        }
-
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);

@@ -7,8 +7,6 @@
     android:paddingLeft="10dp"
     android:paddingRight="10dp" >
 
-
-
     <TextView
         android:id="@+id/title"
         android:layout_width="fill_parent"
